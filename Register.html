@@ -1,0 +1,76 @@
+
+<html>
+<head>
+	<title>cis-forma-uspjeh</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+	<div id="pozor" style="position: absolute; top: 000px; left: 100px;">
+	</div>
+			
+	<div class="wrap forma">
+		<h3>Register</h3>
+		<input type="text" placeholder="username" id="userText" size="25"
+				onkeydown = "if(event.keyCode == 13) 
+								zadatak_van(document.getElementById('userText').value, 
+											  document.getElementById('passText').value)">
+						<br>
+		<input type="text" placeholder="password" id="passText" size="25"				
+				onkeydown = "if(event.keyCode == 13) 
+								zadatak_van(document.getElementById('userText').value, 
+											  document.getElementById('passText').value)">
+						<br><br>
+						
+
+		<input type="button" value="Registriraj" 
+			onclick="zadatak_van(document.getElementById('userText').value, 
+								   document.getElementById('passText').value)">
+		<p><br><a href="login.html">Logiraj se?</a></p>
+	</div>
+	
+	<script type="text/javascript">
+		// poslati van
+		var submit_zadatak = new XMLHttpRequest();	
+		var getzadatak = new XMLHttpRequest();
+		var myTimer = null;
+		
+		function timer()
+		{  
+			myTimer = setInterval("zadatak_vrataPause()", 3000 );
+		}
+		function zadatak_vrataPause()
+		{
+			clearInterval(myTimer);
+			window.location = receivedInfo[1];	
+		}
+
+		function zadatak_van(user, pass)
+		{
+			urlAddress = "Register.php?op=sendInfo&username=" + user + "&password=" + pass;	
+			submit_zadatak.open("GET", urlAddress, true);			// poslati serveru
+			submit_zadatak.onreadystatechange = zadatak_vrata;		
+			submit_zadatak.send(null);								// poslati van	
+		}
+		
+		function zadatak_vrata()
+		{
+			if(submit_zadatak.readyState == 4)
+			{
+				if(submit_zadatak.status == 200)
+				{
+					receivedInfo = submit_zadatak.responseText.split('%');
+					document.getElementById("pozor").innerHTML = "<a style='color:red;'>" + receivedInfo[0] + "</a><br>";
+					
+					if(receivedInfo[0] == "Korisnik kreiran.")
+					{
+						timer();
+					}
+				}
+			}	
+		}
+	</script>
+</body>
+</html>

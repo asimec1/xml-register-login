@@ -1,0 +1,13 @@
+body{
+	font-family: arial;
+	}
+.wrap{
+			margin:0 auto;
+			width: 500px;
+		}
+	
+.forma{		
+text-align: center;
+padding: 10px 10px 20px 10px;
+border: 1px dotted gray;
+	}
